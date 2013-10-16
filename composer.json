@@ -1,0 +1,9 @@
+{
+    "name": "xeoscript/static-manager",
+    "description": "A simple wordpress inspired static manager for PHP.",
+    "keywords": ["static manager"],
+    "license": "MIT",
+    "require": {
+
+    }
+}
