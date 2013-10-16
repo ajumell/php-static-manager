@@ -41,6 +41,26 @@ class StaticManager {
         StaticManager::register($name, $path, array(), StaticManager::$css_registry);
     }
 
+    /**
+     * Change path section
+     */
+    private static function change_path($name, $path, $array) {
+        if (!isset($array[$name])) {
+            // Error : not registered
+        }
+
+        $record = $array[$name];
+        $record['path'] = $path;
+    }
+
+    private static function change_path_js($name, $path) {
+        StaticManager::change_path($name, $path, StaticManager::$js_registry);
+    }
+
+    private static function change_path_css($name, $path) {
+        StaticManager::change_path($name, $path, StaticManager::$css_registry);
+    }
+
 
     /**
      * Enqueue section
@@ -70,8 +90,13 @@ class StaticManager {
      * Dequeue section
      */
     private static function dequeue($name, $array) {
+        if (!isset($array[$name])) {
+            // Error : not registered
+        }
+
         if (in_array($name, $array)) {
-            $array[] = $name;
+            // TODO: Implement
+            // TODO: Automatically dequeue dependent scripts.
         } else {
             // Error
         }
