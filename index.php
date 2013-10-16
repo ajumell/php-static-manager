@@ -13,29 +13,43 @@ class StaticManager {
 
 
     /**
-     *
      * Register section
-     *
      */
-    private static function register($name, $path, $array) {
+    private static function register($name, $path, $dependencies, $array) {
+        if (isset($array, $name)) {
+            // Error: already registered.
+        }
+
+        foreach ($dependencies as $dependency) {
+            if (!isset($array[$dependency])) {
+                // Error : Dependency not registered.
+            }
+        }
+
+        $array[$name] = array(
+            "path" => $path,
+            "dependencies" => $dependencies,
+        );
 
     }
 
-    public static function register_js($name, $path) {
-
+    public static function register_js($name, $path, $dependencies) {
+        StaticManager::register($name, $path, $dependencies, StaticManager::$js_registry);
     }
 
     public static function register_css($name, $path) {
-
+        StaticManager::register($name, $path, array(), StaticManager::$css_registry);
     }
 
 
     /**
-     *
      * Enqueue section
-     *
      */
     private static function enqueue($name, $array) {
+        if (!isset($array[$name])) {
+            // Error : not registered
+        }
+
         if (!in_array($name, $array)) {
             $array[] = $name;
         } else {
@@ -53,9 +67,7 @@ class StaticManager {
 
 
     /**
-     *
      * Dequeue section
-     *
      */
     private static function dequeue($name, $array) {
         if (in_array($name, $array)) {
